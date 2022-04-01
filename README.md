@@ -97,17 +97,17 @@ extraReducers: {
 - 액션 정의하기
   - `액션이름, async(호출할 때 받는 데이터, thunkAPI)`;
 - login thunk action만들기
-  - async이기 때문에 리턴해줘야 하며, 리턴한 data는 success의 데이터로 들어가고,
-        - ```
-          const logIn = createAsyncThunk("user/login", async (data, thunkAPI) => {
-            console.log(data);
-                const result = await delay(500, {
-                    userId: 1,
-                    nickname: "taehee",
-                    });
-                return result;
-                });
-            ```
+- async이기 때문에 리턴해줘야 하며, 리턴한 data는 success의 데이터로 들어가고,
+- ```
+    const logIn = createAsyncThunk("user/login", async (data, thunkAPI) => {
+      console.log(data);
+      const result = await delay(500, {
+          userId: 1,
+          nickname: "taehee",
+          });
+      return result;
+    });
+  ```
 
 ### 5. App.js 수정
 - `dispatch(logIn())`으로 CRUD한다.
