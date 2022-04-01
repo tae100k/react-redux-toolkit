@@ -1,12 +1,14 @@
 ## 📌 순서
 
+## [공통]
+
 ### 1. store.js 수정
 
 - configureStore import
-- 리듀서만 연결
-  - SSR할 때만 initialState
-  - 미들웨어 연결 `middleware : [firstMiddleware]`
-  - devtools 연결 `devTools: process.env.NODE_ENV !== "production",`
+- 보통 리듀서만 연결
+- (선택) SSR할 때만 initialState
+- (선택) 미들웨어 연결 `middleware : [firstMiddleware]`
+- (선택) devtools 연결 `devTools: process.env.NODE_ENV !== "production",`
 
 ## [동기]
 
@@ -32,22 +34,27 @@
   - reducers는 immer가 적용되어 있다.
   - action에 들어있는 데이터는 action.data가 아니라 action payload다
   - userReducer에는 동기, 내부 action이 주로 등장한다.
-  - ```reducers: {
-    logOut(state, action) {
-    state.data = null;
+  - ```
+    reducers: {
+      logOut(state, action) {
+        state.data = null;
     }},
     ```
 
 ### 4. action/user.js 수정
 
-- slice를 만들면 toolkit이 알아서 action을 만들어준다.
+- slice를 만들면 toolkit이 알아서 action을 만들어준다. 따라서 action의 코드는 삭제해준다.
 
 ### 5. App.js 수정
 
 - userSlice가져오기
   `const userSlice = require("./reducers/user");`
 - userSlice.action에서 toolkit이 만든 logout 가져오기
-  `const onLogout = useCallback(() => { dispatch(userSlice.actions.logOut()); }, []);`
+- ```
+  const onLogout = useCallback(() => { 
+    dispatch(userSlice.actions.logOut()); 
+    }, []);
+   ```
 
 ## [비동기]
 
@@ -90,9 +97,7 @@ extraReducers: {
 - 액션 정의하기
   - `액션이름, async(호출할 때 받는 데이터, thunkAPI)`;
 - login thunk action만들기
-
   - async이기 때문에 리턴해줘야 하며, 리턴한 data는 success의 데이터로 들어가고,
-
         - ```
           const logIn = createAsyncThunk("user/login", async (data, thunkAPI) => {
             console.log(data);
@@ -105,5 +110,5 @@ extraReducers: {
             ```
 
 ### 5. App.js 수정
+- `dispatch(logIn())`으로 CRUD한다.
 
-- dispatch(logIn())으로 CRUD한다.
